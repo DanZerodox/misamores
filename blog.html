@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Romántico</title>
+    <style>
+        body {
+            background-image: url('hoja-amarilla.jpg');
+            background-size: cover;
+            font-family: 'Georgia', serif;
+            padding: 20px;
+            color: #5a3e36;
+        }
+        .blog-container {
+            background: rgba(255, 255, 224, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .blog-content {
+            white-space: pre-line;
+            font-size: 18px;
+            line-height: 1.6;
+            min-height: 100px;
+        }
+        .response {
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #5a3e36;
+        }
+        button {
+            background: #d63384;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #c2185b;
+        }
+        .chat {
+            margin-top: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="blog-container">
+        <h1>Mi historia contigo ❤️</h1>
+        <p class="blog-content" id="blog-text"></p>
+        <div class="chat" id="chat"></div>
+        <div class="response">
+            <textarea id="response" placeholder="Escribe tu respuesta aquí..."></textarea>
+            <button onclick="guardarRespuesta()">Responder</button>
+        </div>
+    </div>
+    
+    <script>
+        const texto = "Desde el primer día que te vi, supe que eras especial... Cada momento contigo es un regalo.";
+        let index = localStorage.getItem('textoIndex') ? parseInt(localStorage.getItem('textoIndex')) : 0;
+        let chat = JSON.parse(localStorage.getItem('chat')) || [];
+        function escribirTexto() {
+            if (index < texto.length) {
+                document.getElementById('blog-text').innerHTML += texto.charAt(index);
+                index++;
+                localStorage.setItem('textoIndex', index);
+                setTimeout(escribirTexto, 100);
+            }
+        }
+        function cargarChat() {
+            const chatContainer = document.getElementById('chat');
+            chatContainer.innerHTML = '';
+            chat.forEach(mensaje => {
+                const p = document.createElement('p');
+                p.textContent = mensaje;
+                chatContainer.appendChild(p);
+            });
+        }
+        function guardarRespuesta() {
+            const respuesta = document.getElementById('response').value;
+            if (respuesta.trim() !== "") {
+                chat.push(respuesta);
+                localStorage.setItem('chat', JSON.stringify(chat));
+                document.getElementById('response').value = "";
+                cargarChat();
+            } else {
+                alert('Por favor, escribe algo antes de enviar.');
+            }
+        }
+        window.onload = function() {
+            document.getElementById('blog-text').innerHTML = texto.substring(0, index);
+            escribirTexto();
+            cargarChat();
+        }
+    </script>
+</body>
+</html>

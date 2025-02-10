@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libros Interactivos</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        img {
+            width: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido</h1>
+    <p>Haz clic en un libro para continuar</p>
+    <img src="imagenes/libros.png" alt="Libros" onclick="seleccionarLibro(event)">
+    
+    <script>
+        function seleccionarLibro(event) {
+            let x = event.offsetX;
+            let ancho = event.target.clientWidth;
+            
+            if (x < ancho / 2) {
+                window.location.href = 'password.html';
+            } else {
+                alert('Este libro aún no está disponible.');
+            }
+        }
+    </script>
+</body>
+</html>
